@@ -2,8 +2,6 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const port = process.env.PORT;
-
-
 const fs = require('fs')
 
 app.engine('hypatia', (filePath, options, callback) => {
@@ -34,7 +32,6 @@ const magicRes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes
 
 app.get('/magic/:question', (req,res) => {
     res.render('template1', {title: 'Magic Ball', message: "Your Question is: " + req.params.question, content: "The answer is : " + magicRes[Math.floor(Math.random() * 20)]
-
     })
 })
 
