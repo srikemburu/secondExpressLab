@@ -2,28 +2,23 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const port = process.env.PORT;
-//var ejsLayouts = require("express-ejs-layouts");
 
 const fs = require('fs')
 
-app.engine('hypatia', (filePath, options, callback) => {
-  fs.readFile(filePath, (err, content) => {
-    if (err) return callback(err)
-    const rendered = content.toString()
-      .replace('#title#', '<title>' + options.title + '</title>')
-      .replace('#message#', '<h1>' + options.message + '</h1>')
-      .replace('#content#','<h1>'+ options.content + '</h1>' )
-      .replace('#image#', '<img src =' + options.image + '>')
-    return callback(null, rendered)
-  })
-})
+// app.engine('hypatia', (filePath, options, callback) => {
+//   fs.readFile(filePath, (err, content) => {
+//     if (err) return callback(err)
+//     const rendered = content.toString()
+//       .replace('#title#', '<title>' + options.title + '</title>')
+//       .replace('#message#', '<h1>' + options.message + '</h1>')
+//       .replace('#content#','<h1>'+ options.content + '</h1>' )
+//       .replace('#image#', '<img src =' + options.image + '>')
+//     return callback(null, rendered)
+//   })
+// })
 
 app.set('views', './views')
-app.set('view engine', 'hypatia')
-//app.set('view engine','ejs');
-//app.use(ejsLayouts);
-
-  
+//app.set('view engine', 'hypatia')
 
 // app.get('/:num', (req,res) => {
 //     const number = req.params.num - 1
@@ -31,14 +26,19 @@ app.set('view engine', 'hypatia')
 // })
 
 app.get('/', (req,res) => {    
-    res.send('99 Bottles of beer on the wall<br><br>' + `<a href=/98>Take one down pass it around</a>`)
+    res.send('99 Bottles of beer on the wall<br><br>' + `<a href=/5>Take one down pass it around</a>`)
 })
 
 app.get('/:num', (req,res) => {
     const number = req.params.num - 1
-    res.send(req.params.num + ' Bottles of beer on the wall<br><br>' + `<a href=/${number}>Take one down pass it around</a>`)
+    if (number >= 0) {
+        res.send(req.params.num + ' Bottles of beer on the wall<br><br>' + `<a href=/${number}>Take one down pass it around</a>`)
+    }
+    else{
+        // res.send('99 Bottles of beer on the wall<br><br>' + `<a href=/9>Start Over</a>`)
+        res.send('ZERO Bottles of beer on the wall<br><br>' + `<a href="/">Start Over</a>`)
+    }
 })
-
 
 app.listen(port,() => {
     console.log('listening on port' , port);
